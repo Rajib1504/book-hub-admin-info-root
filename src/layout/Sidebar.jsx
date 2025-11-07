@@ -1,4 +1,5 @@
 import React from "react";
+import { MdOutlineLogout } from "react-icons/md";
 import { NavLink } from "react-router";
 
 const Sidebar = ({ onLinkClick = () => {} }) => {
@@ -110,22 +111,20 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
       </div>
 
       <div className="sticky inset-x-0 bottom-0 border-t border-gray-100">
-        <a
-          href="#"
-          className="flex items-center gap-2 bg-white p-4 hover:bg-gray-50"
-        >
-          <img
-            alt=""
-            src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?auto=format&fit=crop&q=80&w=1160"
-            className="size-10 rounded-full object-cover"
-          />
-          <div>
-            <p className="text-xs">
+        <div className="flex items-center justify-between bg-white p-4 hover:bg-gray-50">
+          <div className="flex gap-2">
+            <img
+              alt=""
+              src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?auto=format&fit=crop&q=80&w=1160"
+              className="size-10 rounded-full object-cover"
+            />
+            <p className="text-xs flex-col flex">
               <strong className="block font-medium">Eric Frusciante</strong>
               <span> eric@frusciante.com </span>
             </p>
           </div>
-        </a>
+          <MdOutlineLogout className="h-6 w-6 text-red-400" />
+        </div>
       </div>
     </div>
   );
