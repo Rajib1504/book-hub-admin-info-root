@@ -24,7 +24,7 @@ const Layout = () => {
           </button>
         </header>
 
-        <main className="p-4 max-h-screen overflow-y-scroll">
+        <main className=" max-h-screen overflow-y-scroll">
           <Outlet />
         </main>
       </section>

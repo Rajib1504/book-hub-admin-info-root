@@ -4,6 +4,8 @@ import Layout from "../layout/Layout";
 import Dashboard from "../pages/Dashboard";
 import AddBook from "../pages/AddBook";
 import Login from "../pages/Login";
+import BookMannagement from "../pages/BookMannagement";
+import Profile from "../pages/Profile";
 
 const Router = createBrowserRouter([
   {
@@ -19,16 +21,14 @@ const Router = createBrowserRouter([
         path: "/add-book",
         element: <AddBook />,
       },
-      // {
-      //   path: "/dashboard",
-      //   index: true,
-      //   element: <Dashboard />,
-      // },
-      // {
-      //   path: "/dashboard",
-      //   index: true,
-      //   element: <Dashboard />,
-      // },
+      {
+        path: "/book-mannagement",
+        element: <BookMannagement />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
     ],
   },
   {

@@ -14,7 +14,7 @@ const AddBook = () => {
 
   const inputClass =
     "w-full rounded-md border border-gray-300 p-3 text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500";
-  
+
   const labelClass = "mb-2 block text-sm font-medium text-gray-700";
   return (
     <section>
@@ -22,9 +22,7 @@ const AddBook = () => {
         title={"Books Zone"}
         subtitle={"Add another new book for your website"}
       />
-      <section
-        name="form"
-      >
+      <section name="form">
         <form
           onSubmit={handleSubmit(onsubmit)}
           noValidate
@@ -34,7 +32,6 @@ const AddBook = () => {
             Add New Book
           </h2>
 
-        
           <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
             {/* Title */}
             <div className="md:col-span-2">
@@ -276,7 +273,7 @@ const AddBook = () => {
             <div className="md:col-span-2">
               <input
                 type="submit"
-                value="Create Product"
+                value="Create Book"
                 className="mt-4 w-full cursor-pointer rounded-md bg-blue-600 p-3 font-semibold text-white shadow-lg transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               />
             </div>

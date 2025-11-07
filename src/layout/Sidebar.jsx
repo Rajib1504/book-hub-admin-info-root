@@ -43,13 +43,13 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
 
           <li>
             <NavLink
-              to={"/invoices"}
+              to={"/book-mannagement"}
               className={({ isActive }) =>
                 isActive ? activeClass : inactiveClass
               }
               onClick={onLinkClick}
             >
-              Invoices
+              Book-Mannagement
             </NavLink>
           </li>
 
@@ -76,13 +76,13 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
               <ul className="mt-2 space-y-1 px-4">
                 <li>
                   <NavLink
-                    to={"/account-details"}
+                    to={"/profile"}
                     className={({ isActive }) =>
                       isActive ? activeClass : inactiveClass
                     }
                     onClick={onLinkClick}
                   >
-                    Details
+                    Profile
                   </NavLink>
                 </li>
                 <li>
@@ -99,7 +99,7 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
                 <li>
                   <button
                     onClick={onLinkClick}
-                    className="w-full rounded-lg px-4 py-2 [text-align:_inherit] text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    className="w-full rounded-lg px-4 py-2 [text-align:inherit] text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                   >
                     Logout
                   </button>
