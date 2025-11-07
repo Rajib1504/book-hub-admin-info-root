@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router";
 import Layout from "../layout/Layout";
 import Dashboard from "../pages/Dashboard";
 import AddBook from "../pages/AddBook";
+import Login from "../pages/Login";
 
 const Router = createBrowserRouter([
   {
@@ -10,7 +11,7 @@ const Router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: "/dashboard",
+        path: "/",
         index: true,
         element: <Dashboard />,
       },
@@ -29,6 +30,10 @@ const Router = createBrowserRouter([
       //   element: <Dashboard />,
       // },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 
