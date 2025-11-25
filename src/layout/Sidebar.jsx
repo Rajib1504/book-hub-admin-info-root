@@ -85,7 +85,7 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
                     Profile
                   </NavLink>
                 </li>
-                <li>
+                {/* <li>
                   <NavLink
                     to={"/security"}
                     className={({ isActive }) =>
@@ -95,15 +95,15 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
                   >
                     Security
                   </NavLink>
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                   <button
                     onClick={onLinkClick}
                     className="w-full rounded-lg px-4 py-2 [text-align:inherit] text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                   >
                     Logout
                   </button>
-                </li>
+                </li> */}
               </ul>
             </details>
           </li>
