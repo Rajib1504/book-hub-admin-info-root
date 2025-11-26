@@ -1,8 +1,10 @@
 import React from "react";
 import { MdOutlineLogout } from "react-icons/md";
 import { NavLink } from "react-router";
+import { useAuth } from "../context/AuthProvider";
 
 const Sidebar = ({ onLinkClick = () => {} }) => {
+  const { user, logout } = useAuth();
   const activeClass =
     "block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700";
   const inactiveClass =
@@ -119,11 +121,15 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
               className="size-10 rounded-full object-cover"
             />
             <p className="text-xs flex-col flex">
-              <strong className="block font-medium">Eric Frusciante</strong>
-              <span> eric@frusciante.com </span>
+              <strong className="block font-medium">{user.name}</strong>
+              <span>{user.email}</span>
             </p>
           </div>
-          <MdOutlineLogout className="h-6 w-6 text-red-400" />
+          <MdOutlineLogout
+            type="button"
+            onClick={logout}
+            className="h-6 w-6 text-red-400 cursor-pointer"
+          />
         </div>
       </div>
     </div>

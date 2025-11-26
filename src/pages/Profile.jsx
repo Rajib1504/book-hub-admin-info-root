@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { HiOutlinePencilAlt } from "react-icons/hi"; // Edit icon
+import { useAuth } from "../context/AuthProvider";
 
 const Profile = () => {
   // 'edit mode' চালু বা বন্ধ করার জন্য state
   const [isEditing, setIsEditing] = useState(false);
-
+  const { user } = useAuth();
+  console.log(user);
   // ডামি ডেটা
   const adminData = {
     name: "Eric Frusciante",
@@ -47,26 +49,20 @@ const Profile = () => {
 
             {/* প্রোফাইল ছবি */}
             <div className="flex justify-center">
-              <img
-                className="h-32 w-32 rounded-full object-cover shadow-lg"
-                src={adminData.imageUrl}
-                alt="Admin Profile"
-              />
+              <div className="h-32 w-32 rounded-full object-cover flex justify-center items-center shadow-lg text-5xl bg-green-300">
+                {user?.name?.charAt(0).toUpperCase()}
+              </div>
             </div>
 
             {/* প্রোফাইল তথ্য */}
             <div className="mt-8 space-y-4">
               <div className="flex justify-between border-b pb-2">
                 <span className="font-medium text-gray-600">Name:</span>
-                <span className="font-medium text-gray-800">
-                  {adminData.name}
-                </span>
+                <span className="font-medium text-gray-800">{user.name}</span>
               </div>
               <div className="flex justify-between border-b pb-2">
                 <span className="font-medium text-gray-600">Email:</span>
-                <span className="font-medium text-gray-800">
-                  {adminData.email}
-                </span>
+                <span className="font-medium text-gray-800">{user.email}</span>
               </div>
               <div className="flex justify-between border-b pb-2">
                 <span className="font-medium text-gray-600">Password:</span>

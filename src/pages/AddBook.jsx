@@ -1,17 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import TitleGenerate from "../hooks/TitleGenerate";
 import { useForm } from "react-hook-form";
+import axiosInstance from "../utils/Axios";
+import toast from "react-hot-toast";
 
 const AddBook = () => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
-  const onsubmit = (data) => {
-    console.log(data);
-  };
 
+  const onsubmit = async (data) => {
+    setLoading(true);
+    try {
+      // formatting data for backend
+      const formattedData = {
+        title: data.title,
+        subtitle: data.subtitle,
+        category: data.category,
+        icon: data.icon,
+        cover_image: data.cover_image,
+        short_description: data.short_description,
+        long_description: data.long_description,
+
+        stats: {
+          pages: Number(data.stats.pages),
+          words: data.stats.words,
+          size: data.stats.size,
+        },
+
+        file_details: {
+          type: data.file_details.type,
+          size: data.stats.size,
+        },
+
+        // converting comma-separated strings to arrays
+        tags: data.tags ? data.tags.split(",").map((t) => t.trim()) : [],
+        whats_inside: data.whats_inside
+          ? data.whats_inside.split(",").map((t) => t.trim())
+          : [],
+        usage_rights: data.usage_rights
+          ? data.usage_rights.split(",").map((t) => t.trim())
+          : [],
+      };
+
+      const response = await axiosInstance.post("/books", formattedData);
+
+      if (response.status === 201 || response.data.success) {
+        toast.success("Book added successfully!");
+        reset();
+      }
+    } catch (error) {
+      console.error(error);
+      const message = error.response?.data?.message || "Failed to add book";
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
   const inputClass =
     "w-full rounded-md border border-gray-300 p-3 text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500";
 
@@ -273,7 +322,8 @@ const AddBook = () => {
             <div className="md:col-span-2">
               <input
                 type="submit"
-                value="Create Book"
+                value={loading ? "loading..." : "Create Book"}
+                disabled={loading}
                 className="mt-4 w-full cursor-pointer rounded-md bg-blue-600 p-3 font-semibold text-white shadow-lg transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               />
             </div>
