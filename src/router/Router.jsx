@@ -6,11 +6,16 @@ import AddBook from "../pages/AddBook";
 import Login from "../pages/Login";
 import BookMannagement from "../pages/BookMannagement";
 import Profile from "../pages/Profile";
+import AdminRoute from "./AdminRoute";
 
 const Router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <AdminRoute>
+        <Layout />
+      </AdminRoute>
+    ),
     children: [
       {
         path: "/",

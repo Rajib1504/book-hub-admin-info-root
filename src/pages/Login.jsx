@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../context/AuthProvider";
+import { useNavigate } from "react-router";
 
 const Login = () => {
   const {
@@ -8,7 +10,25 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onsubmit = (data) => console.log(data);
+  const { login, user } = useAuth();
+  const navigate = useNavigate();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true });
+    }
+  }, [user, navigate]);
+
+  const onsubmit = async (data) => {
+    setIsLoggingIn(true);
+
+    const success = await login(data.email, data.password);
+    if (success) {
+      navigate("/");
+    }
+    setIsLoggingIn(false);
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
@@ -18,7 +38,7 @@ const Login = () => {
         className="w-full max-w-md rounded-xl bg-white p-8 shadow-2xl"
       >
         <h2 className="mb-6 text-center text-3xl font-bold text-gray-800">
-          Login
+          Admin Login
         </h2>
 
         <div className="mb-4">
@@ -63,12 +83,8 @@ const Login = () => {
             {...register("password", {
               required: "Password field is required",
               minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters",
-              },
-              maxLength: {
-                value: 12,
-                message: "Password cannot exceed 12 characters",
+                value: 6,
+                message: "Password must be at least 6 characters",
               },
             })}
           />
@@ -81,8 +97,11 @@ const Login = () => {
 
         <input
           type="submit"
-          value="Login"
-          className="w-full cursor-pointer rounded-md bg-blue-600 p-3 font-semibold text-white shadow-lg transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          disabled={isLoggingIn}
+          value={isLoggingIn ? "Logging in..." : "Login"}
+          className={`w-full cursor-pointer rounded-md bg-blue-600 p-3 font-semibold text-white shadow-lg transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+            isLoggingIn ? "opacity-70 cursor-not-allowed" : ""
+          }`}
         />
       </form>
     </div>
