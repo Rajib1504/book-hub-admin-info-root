@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import BookMannagement from "../pages/BookMannagement";
 import Profile from "../pages/Profile";
 import AdminRoute from "./AdminRoute";
+import UserManagement from "../pages/UserMannagement";
 
 const Router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const Router = createBrowserRouter([
       {
         path: "/book-mannagement",
         element: <BookMannagement />,
+      },
+      {
+        path: "/users",
+        element: <UserManagement />,
       },
       {
         path: "/profile",

@@ -1,55 +1,106 @@
-import React, { useState } from "react";
+import React from "react";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router";
-import { HiMenu, HiX } from "react-icons/hi";
+import { HiMenuAlt2 } from "react-icons/hi";
+import { useAuth } from "../context/AuthProvider";
+import { MdLogout } from "react-icons/md";
 
 const Layout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user, logout } = useAuth();
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  // ইউজারের নামের প্রথম অক্ষর
+  const userInitial = user?.name?.charAt(0).toUpperCase() || "A";
 
   return (
-    <div className="relative grid grid-cols-12 min-h-screen">
-      <section className="hidden bg-gray-100 md:block md:col-span-2">
-        <Sidebar />
-      </section>
+    <div className="drawer lg:drawer-open">
+      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
-      <section className="col-span-12 md:col-span-10">
-        <header className="flex items-center justify-between p-4 bg-white shadow-md md:hidden">
-          <h1 className="text-lg font-bold">Admin Pannel</h1>
-          <button onClick={toggleSidebar} className="text-2xl">
-            {isSidebarOpen ? <HiX /> : <HiMenu />}
-          </button>
-        </header>
+      {/* --- Main Content Area --- */}
+      <div className="drawer-content flex flex-col bg-gray-50 min-h-screen">
+        {/* --- Top Navbar --- */}
+        <div className="w-full navbar bg-white shadow-sm sticky top-0 z-30 h-20 px-6">
+          <div className="flex-none lg:hidden">
+            <label
+              htmlFor="my-drawer-2"
+              className="btn btn-square btn-ghost text-2xl"
+            >
+              <HiMenuAlt2 />
+            </label>
+          </div>
+          <div className="flex-1 px-2 mx-2">
+            <h1 className="text-xl font-bold text-gray-700 lg:block hidden">
+              Admin Dashboard
+            </h1>
+            <h1 className="text-xl font-bold text-gray-700 lg:hidden">
+              Admin Panel
+            </h1>
+          </div>
 
-        <main className=" max-h-screen overflow-y-scroll">
+          {/* User Profile Section in Navbar */}
+          <div className="flex-none gap-4">
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar placeholder"
+              >
+                <div className="bg-indigo-600 text-white rounded-full flex justify-center items-center w-12">
+                  <span className="text-xl font-bold">{userInitial}</span>
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              >
+                <li className="menu-title px-4 py-2">
+                  <span>{user?.name}</span>
+                  <span className="text-xs font-normal block text-gray-500">
+                    {user?.email}
+                  </span>
+                </li>
+                <div className="divider my-0"></div>
+                <li>
+                  <a href="/profile" className="py-3">
+                    Profile
+                  </a>
+                </li>
+                <li>
+                  <a onClick={logout} className="py-3 text-red-500">
+                    <MdLogout /> Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* --- Page Content --- */}
+        <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
-      </section>
+      </div>
 
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden"
-          onClick={toggleSidebar}
-        ></div>
-      )}
+      {/* --- Sidebar (Drawer Side) --- */}
+      <div className="drawer-side z-40">
+        <label
+          htmlFor="my-drawer-2"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <aside className="bg-white text-base-content min-h-full w-80 p-0 border-r border-gray-200">
+          {/* Sidebar Logo Area */}
+          <div className="h-20 flex items-center px-8 border-b border-gray-100 bg-white sticky top-0 z-20">
+            <span className="text-2xl font-extrabold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              BOOK HUB
+            </span>
+          </div>
 
-      <section
-        className={`fixed top-0 left-0 z-40 h-full w-64 bg-gray-100 shadow-xl transform transition-transform duration-300 ease-in-out md:hidden ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <button
-          onClick={toggleSidebar}
-          className="absolute top-4 right-4 text-2xl text-gray-700 md:hidden"
-        >
-          <HiX />
-        </button>
-
-        <Sidebar onLinkClick={toggleSidebar} />
-      </section>
+          {/* Navigation Links */}
+          <div className="p-4">
+            <Sidebar />
+          </div>
+        </aside>
+      </div>
     </div>
   );
 };

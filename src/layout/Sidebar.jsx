@@ -1,138 +1,46 @@
 import React from "react";
-import { MdOutlineLogout } from "react-icons/md";
-import { NavLink } from "react-router";
-import { useAuth } from "../context/AuthProvider";
+import { NavLink } from "react-router"; 
+import { 
+  HiHome, 
+  HiBookOpen, 
+  HiCollection, 
+  HiUsers, 
+  HiUserCircle 
+} from "react-icons/hi";
 
-const Sidebar = ({ onLinkClick = () => {} }) => {
-  const { user, logout } = useAuth();
-  const activeClass =
-    "block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700";
-  const inactiveClass =
-    "block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700";
+const Sidebar = () => {
+  // স্টাইল ক্লাস
+  const baseClass = "flex items-center gap-4 px-4 py-4 rounded-xl transition-all duration-300 font-medium text-base";
+  const activeClass = `${baseClass} bg-indigo-600 text-white shadow-lg shadow-indigo-200`;
+  const inactiveClass = `${baseClass} text-gray-600 hover:bg-indigo-50 hover:text-indigo-600`;
+
+  const navItems = [
+    { path: "/", label: "Dashboard", icon: <HiHome className="text-xl" /> },
+    { path: "/add-book", label: "Add Book", icon: <HiBookOpen className="text-xl" /> },
+    { path: "/book-mannagement", label: "Manage Books", icon: <HiCollection className="text-xl" /> },
+    { path: "/users", label: "Users", icon: <HiUsers className="text-xl" /> },
+    { path: "/profile", label: "Profile", icon: <HiUserCircle className="text-xl" /> },
+  ];
 
   return (
-    <div className="flex h-screen flex-col justify-between border-e border-gray-100 bg-white">
-      <div className="px-4 py-6">
-        <span className="grid place-content-center rounded-lg text-2xl text-gray-600">
-          Admin Pannel
-        </span>
-
-        <ul className="mt-6 space-y-1">
-          <li>
-            <NavLink
-              to={"/"}
-              className={({ isActive }) =>
-                isActive ? activeClass : inactiveClass
-              }
-              onClick={onLinkClick}
-              end
-            >
-              Home
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to={"/add-book"}
-              className={({ isActive }) =>
-                isActive ? activeClass : inactiveClass
-              }
-              onClick={onLinkClick}
-            >
-              Add books
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to={"/book-mannagement"}
-              className={({ isActive }) =>
-                isActive ? activeClass : inactiveClass
-              }
-              onClick={onLinkClick}
-            >
-              Book-Mannagement
-            </NavLink>
-          </li>
-
-          <li>
-            <details className="group [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                <span className="text-sm font-medium"> Account </span>
-                <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
-                </span>
-              </summary>
-
-              <ul className="mt-2 space-y-1 px-4">
-                <li>
-                  <NavLink
-                    to={"/profile"}
-                    className={({ isActive }) =>
-                      isActive ? activeClass : inactiveClass
-                    }
-                    onClick={onLinkClick}
-                  >
-                    Profile
-                  </NavLink>
-                </li>
-                {/* <li>
-                  <NavLink
-                    to={"/security"}
-                    className={({ isActive }) =>
-                      isActive ? activeClass : inactiveClass
-                    }
-                    onClick={onLinkClick}
-                  >
-                    Security
-                  </NavLink>
-                </li> */}
-                {/* <li>
-                  <button
-                    onClick={onLinkClick}
-                    className="w-full rounded-lg px-4 py-2 [text-align:inherit] text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                  >
-                    Logout
-                  </button>
-                </li> */}
-              </ul>
-            </details>
-          </li>
-        </ul>
-      </div>
-
-      <div className="sticky inset-x-0 bottom-0 border-t border-gray-100">
-        <div className="flex items-center justify-between bg-white p-4 hover:bg-gray-50">
-          <div className="flex gap-2">
-            <img
-              alt=""
-              src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?auto=format&fit=crop&q=80&w=1160"
-              className="size-10 rounded-full object-cover"
-            />
-            <p className="text-xs flex-col flex">
-              <strong className="block font-medium">{user.name}</strong>
-              <span>{user.email}</span>
-            </p>
-          </div>
-          <MdOutlineLogout
-            type="button"
-            onClick={logout}
-            className="h-6 w-6 text-red-400 cursor-pointer"
-          />
-        </div>
-      </div>
-    </div>
+    <ul className="flex flex-col gap-2">
+      <li className="menu-title text-gray-400 font-semibold uppercase tracking-wider mb-2 pl-4 text-xs">
+        Main Menu
+      </li>
+      
+      {navItems.map((item) => (
+        <li key={item.path}>
+          <NavLink
+            to={item.path}
+            className={({ isActive }) => isActive ? activeClass : inactiveClass}
+            end={item.path === "/"}
+          >
+            {item.icon}
+            {item.label}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
   );
 };
 

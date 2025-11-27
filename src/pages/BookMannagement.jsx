@@ -136,7 +136,7 @@ const BookMannagement = () => {
   }
 
   return (
-    <div className="w-full bg-gray-100 p-4 md:p-8 min-h-screen">
+    <div className="w-full bg-gray-100 p-4 min-h-screen">
       <TitleGenerate title={"Manage Books"} subtitle={"You can manage your books from here"} />
 
       {books.length === 0 && !loading ? (
