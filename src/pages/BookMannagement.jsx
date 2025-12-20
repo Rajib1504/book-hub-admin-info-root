@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 const BookMannagement = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10;
@@ -67,34 +67,34 @@ const BookMannagement = () => {
 
   const onEditClick = (book) => {
     setEditingBook(book);
-    
+    console.log(book);
     setValue("title", book.title);
     setValue("subtitle", book.subtitle);
     setValue("category", book.category?.name || book.category);
     setValue("icon", book.icon);
-    setValue("coverImage", book.coverImage);
+    setValue("coverImage", book.cover_image);
     setValue("short_description", book.short_description || book.description);
     setValue("long_description", book.long_description);
-    
+
     setValue("stats.pages", book.stats?.pages);
     setValue("stats.words", book.stats?.words);
     setValue("stats.size", book.stats?.size);
-    
+
     setValue("file_details.type", book.file_details?.type);
 
     setValue("tags", book.tags?.join(", "));
     setValue("whats_inside", book.whats_inside?.join(", "));
     setValue("usage_rights", book.usage_rights?.join(", "));
-    
+
     setIsEditOpen(true);
   };
-
   const onUpdateSubmit = async (formData) => {
     try {
       const updatedData = {
         ...formData,
         description: formData.short_description,
-        
+        cover_image: formData.coverImage,
+
         stats: {
           pages: Number(formData.stats.pages),
           words: formData.stats.words,
@@ -102,7 +102,7 @@ const BookMannagement = () => {
         },
         file_details: {
           type: formData.file_details.type,
-          size: formData.stats.size, 
+          size: formData.stats.size,
         },
         tags: formData.tags ? formData.tags.split(",").map((t) => t.trim()) : [],
         whats_inside: formData.whats_inside ? formData.whats_inside.split(",").map((t) => t.trim()) : [],
@@ -161,7 +161,7 @@ const BookMannagement = () => {
                       <div className="flex items-center gap-3">
                         <div className="avatar">
                           <div className="mask mask-squircle w-12 h-12">
-                            <img src={book.coverImage} alt={book.title} />
+                            <img src={book.cover_image} alt={book.title} />
                           </div>
                         </div>
                         <div>
@@ -188,14 +188,14 @@ const BookMannagement = () => {
                     </td>
                     <td className="text-right">
                       <div className="flex justify-end gap-2">
-                        <button 
-                          onClick={() => onEditClick(book)} 
+                        <button
+                          onClick={() => onEditClick(book)}
                           className="btn btn-ghost btn-xs text-indigo-600 hover:bg-indigo-50"
                         >
                           <HiPencil className="h-4 w-4" />
                         </button>
-                        <button 
-                          onClick={() => handleDelete(book._id)} 
+                        <button
+                          onClick={() => handleDelete(book._id)}
                           className="btn btn-ghost btn-xs text-red-600 hover:bg-red-50"
                         >
                           <HiTrash className="h-4 w-4" />
@@ -213,7 +213,7 @@ const BookMannagement = () => {
               <div key={book._id} className="card bg-white shadow-md border border-gray-100">
                 <div className="card-body p-4">
                   <div className="flex items-center gap-4">
-                    <img className="h-16 w-16 rounded-lg object-cover border border-gray-200" src={book.coverImage} alt={book.title} />
+                    <img className="h-16 w-16 rounded-lg object-cover border border-gray-200" src={book.cover_image} alt={book.title} />
                     <div className="overflow-hidden">
                       <h3 className="card-title text-base text-gray-900 truncate">{book.title}</h3>
                       <div className="badge badge-ghost badge-sm mt-1">
@@ -221,7 +221,7 @@ const BookMannagement = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="mt-3 flex justify-between items-center border-t border-gray-100 pt-3">
                     <span className="text-sm font-semibold text-gray-700">
                       {book.stats?.size}
@@ -242,9 +242,9 @@ const BookMannagement = () => {
 
           <div className="mt-8 flex justify-center">
             <div className="join">
-              <button 
-                className="join-item btn bg-white text-gray-700 border-gray-300 hover:bg-gray-50" 
-                onClick={handlePrevPage} 
+              <button
+                className="join-item btn bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                onClick={handlePrevPage}
                 disabled={page === 1}
               >
                 «
@@ -252,9 +252,9 @@ const BookMannagement = () => {
               <button className="join-item btn bg-white text-gray-700 border-gray-300 no-animation">
                 Page {page} of {totalPages}
               </button>
-              <button 
-                className="join-item btn bg-white text-gray-700 border-gray-300 hover:bg-gray-50" 
-                onClick={handleNextPage} 
+              <button
+                className="join-item btn bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                onClick={handleNextPage}
                 disabled={page === totalPages}
               >
                 »
@@ -268,9 +268,9 @@ const BookMannagement = () => {
         <div className="modal modal-open modal-bottom sm:modal-middle">
           <div className="modal-box w-11/12 max-w-4xl bg-white text-gray-900">
             <h3 className="font-bold text-lg mb-6 text-center border-b pb-4">Edit Book Details</h3>
-            
+
             <form onSubmit={handleSubmit(onUpdateSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              
+
               <div className="form-control w-full md:col-span-2">
                 <label className="label"><span className="label-text text-gray-700">Title</span></label>
                 <input type="text" className="input input-bordered w-full bg-white border-gray-300 text-gray-800" {...register("title", { required: true })} />
@@ -304,7 +304,7 @@ const BookMannagement = () => {
 
               <div className="form-control w-full md:col-span-1">
                 <label className="label"><span className="label-text text-gray-700">Short Description</span></label>
-                <textarea className="textarea textarea-bordered h-24 bg-white border-gray-300 text-gray-800" {...register("short_description")} pla ></textarea>
+                <textarea className="textarea textarea-bordered h-24 bg-white border-gray-300 text-gray-800" {...register("short_description")} placeholder="Enter short description"></textarea>
               </div>
 
               <div className="form-control w-full md:col-span-1">
@@ -353,15 +353,15 @@ const BookMannagement = () => {
               </div>
 
               <div className="modal-action mt-6 md:col-span-2 flex justify-end gap-2">
-                <button 
-                  type="button" 
-                  className="btn btn-ghost text-gray-600" 
+                <button
+                  type="button"
+                  className="btn btn-ghost text-gray-600"
                   onClick={() => setIsEditOpen(false)}
                 >
                   Cancel
                 </button>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="btn bg-blue-600 border-none hover:bg-blue-700 text-white px-8"
                 >
                   Update Book

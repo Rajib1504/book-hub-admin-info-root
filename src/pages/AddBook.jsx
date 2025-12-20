@@ -15,6 +15,8 @@ const AddBook = () => {
 
   const onsubmit = async (data) => {
     setLoading(true);
+    // console.log(data);
+
     try {
       // formatting data for backend
       const formattedData = {
@@ -46,9 +48,10 @@ const AddBook = () => {
           ? data.usage_rights.split(",").map((t) => t.trim())
           : [],
       };
-
+// console.log(formattedData);
       const response = await axiosInstance.post("/books", formattedData);
 
+     
       if (response.status === 201 || response.data.success) {
         toast.success("Book added successfully!");
         reset();
